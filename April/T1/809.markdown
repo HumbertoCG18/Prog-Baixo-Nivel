@@ -1,0 +1,5 @@
+<h1>Conceitos Usados</h1>
+<ul>
+<li>Ponteiros</li>
+<li>Arrays</l1>
+</ul>
