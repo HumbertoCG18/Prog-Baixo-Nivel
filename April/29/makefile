@@ -1,0 +1,2 @@
+clean: main
+	rm main
