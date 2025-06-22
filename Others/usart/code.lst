@@ -1,0 +1,164 @@
+
+code.elf:     file format elf32-avr
+
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 5a 00 	call	0xb4	; 0xb4 <main>
+  78:	0c 94 ab 00 	jmp	0x156	; 0x156 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <USART_Init>:
+  80:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
+  84:	80 e1       	ldi	r24, 0x10	; 16
+  86:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+  8a:	86 e0       	ldi	r24, 0x06	; 6
+  8c:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
+  90:	88 e1       	ldi	r24, 0x18	; 24
+  92:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+  96:	08 95       	ret
+
+00000098 <USART_SendByte>:
+  98:	90 91 c0 00 	lds	r25, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+  9c:	95 ff       	sbrs	r25, 5
+  9e:	fc cf       	rjmp	.-8      	; 0x98 <USART_SendByte>
+  a0:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+  a4:	08 95       	ret
+
+000000a6 <USART_ReceiveByte>:
+  a6:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+  aa:	87 ff       	sbrs	r24, 7
+  ac:	fc cf       	rjmp	.-8      	; 0xa6 <USART_ReceiveByte>
+  ae:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+  b2:	08 95       	ret
+
+000000b4 <main>:
+  b4:	0e 94 40 00 	call	0x80	; 0x80 <USART_Init>
+  b8:	8f e4       	ldi	r24, 0x4F	; 79
+  ba:	0e 94 4c 00 	call	0x98	; 0x98 <USART_SendByte>
+  be:	89 e6       	ldi	r24, 0x69	; 105
+  c0:	0e 94 4c 00 	call	0x98	; 0x98 <USART_SendByte>
+  c4:	81 e2       	ldi	r24, 0x21	; 33
+  c6:	0e 94 4c 00 	call	0x98	; 0x98 <USART_SendByte>
+  ca:	8a e0       	ldi	r24, 0x0A	; 10
+  cc:	0e 94 4c 00 	call	0x98	; 0x98 <USART_SendByte>
+  d0:	c0 e0       	ldi	r28, 0x00	; 0
+  d2:	0a e0       	ldi	r16, 0x0A	; 10
+  d4:	10 e0       	ldi	r17, 0x00	; 0
+  d6:	80 e3       	ldi	r24, 0x30	; 48
+  d8:	8c 0f       	add	r24, r28
+  da:	0e 94 4c 00 	call	0x98	; 0x98 <USART_SendByte>
+  de:	8a e0       	ldi	r24, 0x0A	; 10
+  e0:	0e 94 4c 00 	call	0x98	; 0x98 <USART_SendByte>
+  e4:	8c 2f       	mov	r24, r28
+  e6:	90 e0       	ldi	r25, 0x00	; 0
+  e8:	01 96       	adiw	r24, 0x01	; 1
+  ea:	b8 01       	movw	r22, r16
+  ec:	0e 94 83 00 	call	0x106	; 0x106 <__divmodhi4>
+  f0:	c8 2f       	mov	r28, r24
+  f2:	2f ef       	ldi	r18, 0xFF	; 255
+  f4:	89 e6       	ldi	r24, 0x69	; 105
+  f6:	98 e1       	ldi	r25, 0x18	; 24
+  f8:	21 50       	subi	r18, 0x01	; 1
+  fa:	80 40       	sbci	r24, 0x00	; 0
+  fc:	90 40       	sbci	r25, 0x00	; 0
+  fe:	e1 f7       	brne	.-8      	; 0xf8 <main+0x44>
+ 100:	00 c0       	rjmp	.+0      	; 0x102 <main+0x4e>
+ 102:	00 00       	nop
+ 104:	e8 cf       	rjmp	.-48     	; 0xd6 <main+0x22>
+
+00000106 <__divmodhi4>:
+ 106:	97 fb       	bst	r25, 7
+ 108:	07 2e       	mov	r0, r23
+ 10a:	16 f4       	brtc	.+4      	; 0x110 <__divmodhi4+0xa>
+ 10c:	00 94       	com	r0
+ 10e:	07 d0       	rcall	.+14     	; 0x11e <__divmodhi4_neg1>
+ 110:	77 fd       	sbrc	r23, 7
+ 112:	09 d0       	rcall	.+18     	; 0x126 <__divmodhi4_neg2>
+ 114:	0e 94 97 00 	call	0x12e	; 0x12e <__udivmodhi4>
+ 118:	07 fc       	sbrc	r0, 7
+ 11a:	05 d0       	rcall	.+10     	; 0x126 <__divmodhi4_neg2>
+ 11c:	3e f4       	brtc	.+14     	; 0x12c <__divmodhi4_exit>
+
+0000011e <__divmodhi4_neg1>:
+ 11e:	90 95       	com	r25
+ 120:	81 95       	neg	r24
+ 122:	9f 4f       	sbci	r25, 0xFF	; 255
+ 124:	08 95       	ret
+
+00000126 <__divmodhi4_neg2>:
+ 126:	70 95       	com	r23
+ 128:	61 95       	neg	r22
+ 12a:	7f 4f       	sbci	r23, 0xFF	; 255
+
+0000012c <__divmodhi4_exit>:
+ 12c:	08 95       	ret
+
+0000012e <__udivmodhi4>:
+ 12e:	aa 1b       	sub	r26, r26
+ 130:	bb 1b       	sub	r27, r27
+ 132:	51 e1       	ldi	r21, 0x11	; 17
+ 134:	07 c0       	rjmp	.+14     	; 0x144 <__udivmodhi4_ep>
+
+00000136 <__udivmodhi4_loop>:
+ 136:	aa 1f       	adc	r26, r26
+ 138:	bb 1f       	adc	r27, r27
+ 13a:	a6 17       	cp	r26, r22
+ 13c:	b7 07       	cpc	r27, r23
+ 13e:	10 f0       	brcs	.+4      	; 0x144 <__udivmodhi4_ep>
+ 140:	a6 1b       	sub	r26, r22
+ 142:	b7 0b       	sbc	r27, r23
+
+00000144 <__udivmodhi4_ep>:
+ 144:	88 1f       	adc	r24, r24
+ 146:	99 1f       	adc	r25, r25
+ 148:	5a 95       	dec	r21
+ 14a:	a9 f7       	brne	.-22     	; 0x136 <__udivmodhi4_loop>
+ 14c:	80 95       	com	r24
+ 14e:	90 95       	com	r25
+ 150:	bc 01       	movw	r22, r24
+ 152:	cd 01       	movw	r24, r26
+ 154:	08 95       	ret
+
+00000156 <_exit>:
+ 156:	f8 94       	cli
+
+00000158 <__stop_program>:
+ 158:	ff cf       	rjmp	.-2      	; 0x158 <__stop_program>

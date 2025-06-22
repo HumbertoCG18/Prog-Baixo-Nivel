@@ -1,0 +1,13 @@
+all: main
+
+main: main.o bibfunc.o biboutra.o
+	gcc -o main main.o bibfunc.o biboutra.o
+
+main.o: main.c
+	gcc -c main.c
+
+bibfunc.o: bibfunc.c
+	gcc -c bibfunc.c
+
+biboutra.o: biboutra.c
+	gcc -c biboutra.c

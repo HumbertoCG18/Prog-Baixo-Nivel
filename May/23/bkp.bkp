@@ -1,0 +1,216 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// criar estrutura de nodo
+typedef struct Node Nodo;
+struct Node
+{
+    int value;    
+    Nodo * next;
+};
+
+// criar estrutura de lista
+typedef struct
+{
+    int size;
+    Nodo * head;
+    Nodo * tail;
+    
+} LinkedList;
+
+typedef struct{
+    int nElements;
+    int hashSize;
+    LinkedList* setOfValues;
+} hashSet;
+
+void initSet(hashSet *hs, int hashSize);
+int addToSet(hashSet *hs, int value);
+void printSet(hashSet *hs);
+
+void initList(LinkedList *ll);
+
+// Operacoes com lista
+//   adicionar elemento
+void add(LinkedList *ll, int element);
+//   remover indice
+//   ver tamanho da lista (DEPRECATED)
+//   capturar por indice um determinado elemento
+//     Retorno -1, a lista não existe
+//     Retorno -2, a lista está vazia
+//     Retorno -3, o elemento não existe na lista
+//     Retorno >=0, o elemento foi encontrado
+int indexOf(LinkedList * ll, int element);
+//   descobrir indice de um determinado elemento
+//   descobrir se está vazio (DEPRECATED)
+//   ordenacao
+//   impressao da lista
+void print(LinkedList* ll);
+void printn(LinkedList* ll, int n);
+//   apaga a lista
+void clean(LinkedList *ll);
+
+// remove o elemento encontrado e retorna a posicao onde estava
+int rremove(LinkedList *ll, int element);
+
+
+void main(){
+    hashSet conjunto;
+    initSet(&conjunto, 20);
+    int value;
+    do{ 
+        printSet(&conjunto);
+        printf("\n-=-=-==-==-=-==-\n");
+
+        printf("Informe um valor: ");
+        scanf("%d", &value);
+        if(value>=0)
+            addToSet(&conjunto, value);
+    }while (value>=0);    
+
+
+    getchar();
+}
+
+void initSet(hashSet *hs, int hashSize){
+    hs->hashSize=hashSize;
+    hs->nElements=0;
+    hs->setOfValues = malloc(hashSize*sizeof(LinkedList));
+    for(int i=0; i<hashSize; i++)
+        initList(&hs->setOfValues[i]);
+}
+
+int addToSet(hashSet *hs, int value){
+
+    int hashIdx = value%hs->hashSize;
+    int lstIdx = indexOf(&hs->setOfValues[hashIdx], value);
+    if(lstIdx>=0)
+        return 0; // inserção não pode ser realizada
+
+    // a inserção pode ser realizada
+    add(&hs->setOfValues[hashIdx], value);
+    hs->nElements++;
+    return 1;
+}
+
+void printSet(hashSet *hs){
+    if(hs->nElements==0)
+      printf("O conjunto está vazio\n");
+    else
+        for(int i=0; i<hs->hashSize; i++){
+            if(hs->setOfValues[i].size>0){
+                printf("hshIdx%d: ", i);
+                printn(&hs->setOfValues[i], hs->setOfValues[i].size);
+            }
+        }
+}
+
+void initList(LinkedList *ll){
+    ll->head=ll->tail=NULL;
+    ll->size=0;
+}
+void add(LinkedList *ll, int element){
+    Nodo * novo = malloc(sizeof(Nodo));
+    novo->value=element;
+    novo->next=NULL;
+
+    if(ll->size==0)
+        ll->head=ll->tail=novo;
+    else{
+        ll->tail->next=(struct Node*) novo;
+        ll->tail=novo;
+    }
+    ll->size++;
+    //printf("Inseriu(%d): %d(%p -> %p), head(%p), tail(%p)\n",ll->size, novo->value, novo, novo->next, ll->head, ll->tail);
+}
+
+void print(LinkedList* ll){
+    Nodo *aux = ll->head;
+    printf("[");
+    while (aux!=NULL){
+        printf("%d ", aux->value);
+        aux=aux->next;
+    }
+    printf("]\n");
+}
+
+void printn(LinkedList* ll, int n){
+    Nodo *aux = ll->head;
+    printf("[");
+    while ((aux!=NULL) && (n>0)){
+        printf("%d ", aux->value);
+        aux=aux->next;
+        n--;
+    }
+    printf("]\n");
+}
+void clean(LinkedList *ll){
+    Nodo *aux;
+
+    while (ll->head!=NULL){
+        aux=ll->head;
+        ll->head=ll->head->next;
+        free(aux);
+        ll->size--;
+    }
+}
+
+int indexOf(LinkedList * ll, int element){
+//     Retorno -1, a lista não existe
+    if(ll==NULL) return -1;
+
+//     Retorno -2, a lista está vazia
+    if((ll->size==0)||(ll->head==NULL)) return -2;
+
+//     Retorno >=0, o elemento foi encontrado
+    Nodo *aux=ll->head;
+    int idx=0;
+    while(aux!=NULL){
+        if(aux->value==element) return idx;
+
+        idx++;
+        aux=aux->next;
+    }
+    return -3;
+}
+
+int rremove(LinkedList *ll, int element){
+//     Retorno -1, a lista não existe
+    if(!ll) return -1;
+
+//     Retorno -2, a lista está vazia
+    if((ll->size==0)||(!ll->head)) return -2;
+
+    Nodo * aux = ll->head;
+    int idx=0;
+    if(aux->value!=element){
+        while(aux){
+            if((aux->next) && (aux->next->value==element)){
+                Nodo *remove=aux->next;
+                aux->next=remove->next;
+
+                if(remove==ll->tail)
+                    ll->tail=aux;
+
+                free(remove);
+                ll->size--;
+                return idx+1;
+            }
+            idx++;
+            aux=aux->next;
+        }
+        return -3;
+    }
+    else{
+        // remove o head
+        ll->head=ll->head->next;
+
+        if(aux==ll->tail)
+            ll->tail=ll->head;
+
+        free(aux);
+        ll->size--;
+        return 0;
+    }
+}
+
