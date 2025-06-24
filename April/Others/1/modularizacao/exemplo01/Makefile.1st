@@ -1,0 +1,16 @@
+all: run.x
+
+run.x: matematica.o fazOSomatorio.o fazOFatorial.o principal.o
+	gcc -o run.x matematica.o fazOSomatorio.o fazOFatorial.o principal.o
+
+matematica.o: matematica.c
+	gcc -c matematica.c
+
+fazOSomatorio.o: fazOSomatorio.c
+	gcc -c fazOSomatorio.c
+
+fazOFatorial.o: fazOFatorial.c
+	gcc -c fazOFatorial.c
+
+principal.o: principal.c
+	gcc -c principal.c

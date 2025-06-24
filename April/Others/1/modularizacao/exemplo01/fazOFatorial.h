@@ -1,0 +1,1 @@
+void fazOFatorial(int v);
