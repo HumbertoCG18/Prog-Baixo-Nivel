@@ -1,0 +1,1 @@
+void fazOSomatorio(int v);
